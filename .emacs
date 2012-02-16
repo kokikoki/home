@@ -55,6 +55,7 @@
 (setq load-path (append '("~/.emacs.d"
 			  "~/.emacs.d/color-theme/"
 			  "~/.emacs.d/site-lisp/"
+			  "~/.emacs.d/org-mode/"
 			  "~/.emacs.d/remember/"
 			  ) load-path))
 
@@ -168,11 +169,34 @@
 ;■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ; remember.elの設定         ■
 ;■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+(require 'org)
 (require 'remember)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (define-key global-map "\C-cr" 'org-remember)
-(setq org-directory "~/memo/")
-(setq remember-data-file "~/.notes.org")
+(org-remember-insinuate)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(setq org-agenda-files '("~/memo/memo.txt"))
+(setq org-directory "~/org/")
+(setq org-agenda-files '("~/org/.agenda.org"))
+;(setq remember-data-file "~/.notes.org")
+(setq org-default-notes-file "~/.notes.org")
+(setq org-remember-templates
+      '(
+        ("Todo" ?t "** TODO %?\n   %i\n   %a\n   %U" nil "Inbox")
+        ("WorkMemo" ?m "** %?\n   %i\n   %a\n   %U" nil "Work Memos")
+        ("Want" ?a "** %?\n   %i\n   %U" nil "Wants")
+        ))
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(gud-gdb-command-name "gdb --annotate=1")
+ '(large-file-warning-threshold nil)
+ '(org-agenda-files nil))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
