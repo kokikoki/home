@@ -1,0 +1,24 @@
+;; タブ/行末スペースのハイライト
+;(defface my-blank-face '((t (:background "gray60" :underline nil))) nil)
+;(defvar my-blank-face 'my-blank-face)
+;(defadvice font-lock-mode (before font-lock-mode-before ())
+;    (font-lock-add-keywords major-mode
+;                            '(("[\t　]" 0 my-blank-face append)
+;                              ("[ \t]+$"  0 my-blank-face append)
+;                              )))
+;(ad-enable-advice 'font-lock-mode 'before 'font-lock-mode-before)
+;(ad-activate 'font-lock-mode)
+
+;; コピー＆ペーストのハイライト
+(defadvice yank (after ys:highlight-string activate)
+  (let ((ol (make-overlay (mark t) (point))))
+	(overlay-put ol 'face 'highlight)
+	(sit-for 0.5)
+	(delete-overlay ol)
+	))
+(defadvice yank-pop (after ys:highlight-string activate)
+  (when (eq last-command 'yank)
+	(let ((ol (make-overlay (mark t) (point))))
+	  (overlay-put ol 'face 'highlight)
+	  (sit-for 0.5)
+	  (delete-overlay ol)
